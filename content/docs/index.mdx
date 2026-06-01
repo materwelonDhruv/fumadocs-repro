@@ -1,0 +1,133 @@
+---
+title: Repro
+---
+
+This page has ten `twoslash` code blocks with `^?` queries on deep zod types.
+Serving it under `next dev` exhausts the heap and crashes; see the README.
+
+```ts twoslash
+import { z } from 'zod';
+const a = z.object({
+  id: z.string(),
+  n: z.number(),
+  tags: z.array(z.string()),
+  meta: z.object({ a: z.string(), b: z.number(), c: z.boolean() }),
+});
+type A = z.infer<typeof a>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const b = z.object({
+  user: z.object({ name: z.string(), roles: z.array(z.enum(['a', 'b', 'c'])) }),
+  flags: z.record(z.string(), z.boolean()),
+});
+type B = z.infer<typeof b>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const c = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('x'), x: z.number() }),
+  z.object({ kind: z.literal('y'), y: z.string() }),
+]);
+type C = z.infer<typeof c>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const d = z.object({
+  a: z.coerce.number().int().min(1).max(65535),
+  b: z.string().url(),
+  c: z.string().datetime(),
+  d: z.array(z.object({ k: z.string(), v: z.number() })),
+});
+type D = z.infer<typeof d>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const e = z.object({
+  nested: z.object({
+    deep: z.object({ deeper: z.object({ value: z.array(z.string()) }) }),
+  }),
+  list: z.array(z.union([z.string(), z.number(), z.boolean()])),
+});
+type E = z.infer<typeof e>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const f = z.object({
+  port: z.coerce.number(),
+  host: z.string(),
+  opts: z.object({
+    tls: z.boolean(),
+    ca: z.string().optional(),
+    ciphers: z.array(z.string()),
+  }),
+});
+type F = z.infer<typeof f>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const g = z.object({
+  items: z.array(
+    z.object({
+      id: z.string(),
+      qty: z.number(),
+      price: z.object({ amount: z.number(), currency: z.enum(['USD', 'EUR']) }),
+    }),
+  ),
+});
+type G = z.infer<typeof g>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const h = z.object({
+  a: z.string(),
+  b: z.number(),
+  c: z.boolean(),
+  d: z.array(z.string()),
+  e: z.record(z.string(), z.number()),
+  f: z.tuple([z.string(), z.number(), z.boolean()]),
+});
+type H = z.infer<typeof h>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const i = z.object({
+  config: z.object({
+    db: z.object({ url: z.string(), pool: z.number() }),
+    cache: z.object({ ttl: z.number(), max: z.number() }),
+    log: z.enum(['debug', 'info', 'warn', 'error']),
+  }),
+});
+type I = z.infer<typeof i>;
+//   ^?
+```
+
+```ts twoslash
+import { z } from 'zod';
+const j = z.object({
+  a: z.array(z.array(z.array(z.string()))),
+  b: z.union([
+    z.object({ t: z.literal(1) }),
+    z.object({ t: z.literal(2) }),
+    z.object({ t: z.literal(3) }),
+  ]),
+});
+type J = z.infer<typeof j>;
+//   ^?
+```
