@@ -20,5 +20,3 @@ Open `http://localhost:3000/docs`. The request does not complete, heap RSS climb
 - `pnpm build` runs the same twoslash work and finishes in under 30s. So twoslash's type computation is not the limit; the dev pipeline is.
 - `next dev --webpack` and Node 22 / 25 all OOM. Not bundler- or Node-specific.
 - `transformerTwoslash({ twoslashOptions: { cache: false } })` (no environment reuse) still OOMs, and a `typesCache` warmed by a prior build does not help. So it is not twoslash's cached environment.
-
-The exact allocation site is not pinned. The crash stack is in Node's `eval` to `JSON.parse` module-evaluation path, which suggests the dev runtime evaluating the large compiled module rather than twoslash itself.
