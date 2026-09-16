@@ -1,12 +1,12 @@
 # dependencies
-/node_modules
+node_modules
 
 # next.js
 /.next/
 /out/
 
 # fumadocs mdx codegen
-/.source/
+.source/
 
 # logs
 *.log
