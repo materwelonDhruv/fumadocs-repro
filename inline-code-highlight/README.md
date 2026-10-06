@@ -2,7 +2,7 @@
 
 `highlightMarkdown()` doesn't mark a match if it's inside backticks. Only plain text gets the `<mark>`.
 
-`highlightInTree` only visits `text` nodes, and a backticked span parses as `inlineCode`, so it never gets looked at.
+`highlightInTree` only visits `text` nodes. A backticked span parses as `inlineCode`.
 
 Tested on `fumadocs-core@16.16.2`.
 
