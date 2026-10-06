@@ -2,3 +2,4 @@
 
 - [`filter-element/`](./filter-element), the option is overwritten before the stringifier reads it
 - [`include-mdast/`](./include-mdast), `removePosition: true` exports `_mdast` with no value
+- [`inline-code-highlight/`](./inline-code-highlight), search highlighting skips a match inside backticks
